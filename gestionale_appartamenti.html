@@ -199,25 +199,26 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
 </div>
 
 <script>
-const SUPABASE_URL = 'https://ourrvfsrvjhmegeffqmj.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91cnJ2ZnNydmpobWVnZWZmcW1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgwMTkzODcsImV4cCI6MjA5MzU5NTM4N30.MQbr2_SMnc1Htavi3aydWL8MeZM9V_-z5gVGcslchkI';
-const HEADERS = {'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal'};
+const JSONBIN_ID = '69fa7c6caaba88219776a220';
+const JSONBIN_KEY = '$2a$10$5vmP/Uu0uYeCeSakqwXBPeA4ZIJRfA94HnupTPEFO6l62II1aI1hC';
+const JSONBIN_URL = 'https://api.jsonbin.io/v3/b/' + JSONBIN_ID;
 
-async function dbGet(table) {
-  const r = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?order=id', {headers: {'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY}});
-  return await r.json();
+async function cloudLoad(){
+  try{
+    const r = await fetch(JSONBIN_URL+'/latest', {headers:{'X-Master-Key':JSONBIN_KEY}});
+    const j = await r.json();
+    return j.record;
+  }catch(e){console.log('load err',e);return null;}
 }
-async function dbInsert(table, row) {
-  const r = await fetch(SUPABASE_URL + '/rest/v1/' + table, {method:'POST', headers: HEADERS, body: JSON.stringify(row)});
-  if(!r.ok) console.log('insert error', table, await r.text());
-}
-async function dbUpsert(table, rows) {
-  const r = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?on_conflict=id', {method:'POST', headers: {...HEADERS, 'Prefer':'resolution=merge-duplicates,return=minimal'}, body: JSON.stringify(rows)});
-  if(!r.ok) console.log('upsert error', table, await r.text());
-}
-async function dbDelete(table, id) {
-  const r = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?id=eq.' + id, {method:'DELETE', headers: HEADERS});
-  if(!r.ok) console.log('delete error', table, await r.text());
+
+async function cloudSave(d){
+  try{
+    await fetch(JSONBIN_URL, {
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
+      body:JSON.stringify(d)
+    });
+  }catch(e){console.log('save err',e);}
 }
 
 const MONTHS=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
@@ -280,55 +281,6 @@ const DEFAULT={
 let data;
 try{const s=localStorage.getItem('apt_app_v2');data=s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT));}
 catch(e){data=JSON.parse(JSON.stringify(DEFAULT));}
-function save(){
-  syncToCloud();
-}
-
-async function syncToCloud(){
-  try {
-    await dbUpsert('appartamenti', data.appartamenti.map(a=>({
-      id:a.id, code:a.code, tenant:a.tenant, tel:a.tel, email:a.email,
-      rent:a.rent, day:a.day, exp:a.exp||'', status:a.status, note:a.note||''
-    })));
-    if(data.pagamenti.length > 0)
-      await dbUpsert('pagamenti', data.pagamenti.map(p=>({
-        id:p.id, apt_id:p.aptId, amt:p.amt, date:p.date||'', month:p.month||'', note:p.note||''
-      })));
-    if(data.scadenze.length > 0)
-      await dbUpsert('scadenze', data.scadenze.map(s=>({
-        id:s.id, type:s.type, apt_id:s.aptId, date:s.date||'', note:s.note||''
-      })));
-  } catch(e){ console.log('sync error', e); }
-}
-
-async function loadFromCloud(){
-  try {
-    showLoading(true);
-    const [ra, rp, rs] = await Promise.all([
-      dbGet('appartamenti'),
-      dbGet('pagamenti'),
-      dbGet('scadenze')
-    ]);
-    if(ra && ra.length > 0){
-      data.appartamenti = ra.map(a=>({
-        id:a.id, code:a.code, tenant:a.tenant, tel:a.tel, email:a.email,
-        rent:parseFloat(a.rent)||0, day:a.day, exp:a.exp||'', status:a.status, note:a.note||''
-      }));
-      data.pagamenti = (rp||[]).map(p=>({
-        id:p.id, aptId:p.apt_id, amt:parseFloat(p.amt)||0, date:p.date||'', month:p.month||'', note:p.note||''
-      }));
-      data.scadenze = (rs||[]).map(s=>({
-        id:s.id, type:s.type, aptId:s.apt_id, date:s.date||'', note:s.note||''
-      }));
-      data.nextId = Math.max(...[...data.appartamenti, ...data.pagamenti, ...data.scadenze].map(x=>x.id), 499) + 1;
-    } else {
-      await syncToCloud();
-    }
-  } catch(e){ console.log('load error', e); }
-  showLoading(false);
-  renderMetrics();
-  renders.dashboard();
-}
 
 function showLoading(show){
   let el = document.getElementById('loading-screen');
@@ -337,18 +289,16 @@ function showLoading(show){
       el = document.createElement('div');
       el.id = 'loading-screen';
       el.style.cssText = 'position:fixed;inset:0;background:#0f0f0f;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px';
-      el.innerHTML = '<div style="font-size:32px">🏠</div><div style="color:#888;font-size:14px">Caricamento dati...</div>';
+      el.innerHTML = '<div style="font-size:32px">🏠</div><div style="color:#888;font-size:14px">Caricamento...</div>';
       document.body.appendChild(el);
     }
-    el.style.display = 'flex';
+    el.style.display='flex';
   } else {
-    if(el) el.style.display = 'none';
+    if(el) el.style.display='none';
   }
 }
 
-async function deleteFromCloud(table, id){
-  try { await dbDelete(table, id); } catch(e){}
-}
+function save(){try{localStorage.setItem('apt_app_v2',JSON.stringify(data));}catch(e){}}
 
 function today(){return new Date().toISOString().split('T')[0];}
 function daysTo(d){return Math.round((new Date(d)-new Date(today()))/86400000);}
@@ -536,37 +486,33 @@ function openModal(t){
 
 function closeModal(t){document.getElementById('modal-'+t).classList.remove('open');}
 
-async function saveApt(){
+function saveApt(){
   const a={id:editingAptId||data.nextId++,code:document.getElementById('f-code').value||'?',tenant:document.getElementById('f-ten').value||'',tel:document.getElementById('f-tel').value||'',email:document.getElementById('f-email').value||'',rent:parseFloat(document.getElementById('f-rent').value)||0,day:parseInt(document.getElementById('f-day').value)||5,exp:document.getElementById('f-exp').value||'',status:document.getElementById('f-status').value,note:document.getElementById('f-note').value||''};
   if(editingAptId){const i=data.appartamenti.findIndex(x=>x.id===editingAptId);if(i>-1)data.appartamenti[i]=a;}
   else data.appartamenti.push(a);
-  closeModal('apt');renders.appartamenti();renderMetrics();
-  await dbUpsert('appartamenti', [{id:a.id, code:a.code, tenant:a.tenant, tel:a.tel, email:a.email, rent:a.rent, day:a.day, exp:a.exp||'', status:a.status, note:a.note||''}]);
+  save();closeModal('apt');renders.appartamenti();renderMetrics();
 }
 
-async function savePay(){
-  const newPay = {id:data.nextId++,aptId:parseInt(document.getElementById('p-apt').value),amt:parseFloat(document.getElementById('p-amt').value)||0,date:document.getElementById('p-date').value,month:document.getElementById('p-month').value,note:document.getElementById('p-note').value};
-  data.pagamenti.push(newPay);
-  closeModal('pay');renders.pagamenti();renderMetrics();
-  await dbInsert('pagamenti', {id:newPay.id, apt_id:newPay.aptId, amt:newPay.amt, date:newPay.date||'', month:newPay.month||'', note:newPay.note||''});
+function savePay(){
+  data.pagamenti.push({id:data.nextId++,aptId:parseInt(document.getElementById('p-apt').value),amt:parseFloat(document.getElementById('p-amt').value)||0,date:document.getElementById('p-date').value,month:document.getElementById('p-month').value,note:document.getElementById('p-note').value});
+  save();closeModal('pay');renders.pagamenti();renderMetrics();
 }
 
-async function saveScad(){
-  const newScad = {id:data.nextId++,type:document.getElementById('s-type').value,aptId:parseInt(document.getElementById('s-apt').value),date:document.getElementById('s-date').value,note:document.getElementById('s-note').value};
-  data.scadenze.push(newScad);
-  closeModal('scad');renders.scadenze();
-  await dbInsert('scadenze', {id:newScad.id, type:newScad.type, apt_id:newScad.aptId, date:newScad.date||'', note:newScad.note||''});
+function saveScad(){
+  data.scadenze.push({id:data.nextId++,type:document.getElementById('s-type').value,aptId:parseInt(document.getElementById('s-apt').value),date:document.getElementById('s-date').value,note:document.getElementById('s-note').value});
+  save();closeModal('scad');renders.scadenze();
 }
 
-function deletePay(id){if(confirm('Eliminare questo pagamento?')){deleteFromCloud('pagamenti',id);data.pagamenti=data.pagamenti.filter(p=>p.id!==id);save();renders.pagamenti();renderMetrics();}}
-function deleteScad(id){deleteFromCloud('scadenze',id);data.scadenze=data.scadenze.filter(s=>s.id!==id);save();renders.scadenze();}
+function deletePay(id){if(confirm('Eliminare questo pagamento?')){data.pagamenti=data.pagamenti.filter(p=>p.id!==id);save();renders.pagamenti();renderMetrics();}}
+function deleteScad(id){data.scadenze=data.scadenze.filter(s=>s.id!==id);save();renders.scadenze();}
 
 document.querySelectorAll('.modal-overlay').forEach(el=>{
   el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id.replace('modal-',''));});
 });
 
+renderMetrics();
+renders.dashboard();
 document.getElementById('fab').style.display='none';
-loadFromCloud();
 </script>
 </body>
 </html>
