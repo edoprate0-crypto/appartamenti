@@ -308,7 +308,7 @@ function daysTo(d){return Math.round((new Date(d)-new Date(today()))/86400000);}
 function scadBadge(d){const n=daysTo(d);if(n<0)return{cls:'red',txt:'Scaduta'};if(n<=30)return{cls:'red',txt:n+'gg'};if(n<=90)return{cls:'amber',txt:n+'gg'};return{cls:'green',txt:n+'gg'};}
 function fmtDate(d){if(!d)return'-';const[y,m,dd]=d.split('-');return`${dd}/${m}/${y}`;}
 function aptLabel(id){if(id===0)return'Generale';const a=data.appartamenti.find(x=>x.id===id);return a?`${a.code} - ${a.tenant.split('/')[0].trim().split(' ').slice(0,2).join(' ')}`:'?';}
-function fmtAmt(n){return'euro '+n.toLocaleString('it',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fmtAmt(n){return'\u20AC\u00A0'+n.toLocaleString('it',{minimumFractionDigits:2,maximumFractionDigits:2});}
 
 let curTab='dashboard';
 let editingAptId=null;
@@ -344,7 +344,7 @@ function renderMetrics(){
   document.getElementById('metrics-bar').innerHTML=`
     <div class="metric"><div class="metric-label">Affittati</div><div class="metric-val">${aff}/${tot}</div></div>
     <div class="metric"><div class="metric-label">Pagati (${MONTHS[now.getMonth()].slice(0,3)})</div><div class="metric-val ${paidNow<aff?'amber':''}">${paidNow}/${aff}</div></div>
-    <div class="metric"><div class="metric-label">Entrate/mese</div><div class="metric-val green">${totRent>0?'E'+totRent.toLocaleString('it'):'--'}</div></div>
+    <div class="metric"><div class="metric-label">Entrate/mese</div><div class="metric-val green">${totRent>0?'\u20AC'+totRent.toLocaleString('it'):'--'}</div></div>
     <div class="metric"><div class="metric-label">Scadenze</div><div class="metric-val ${scadute>0?'red':urgScad>0?'amber':''}">${scadute>0?scadute+' scad.':urgScad>0?urgScad+' urg.':'OK'}</div></div>`;
   document.getElementById('hdr-badge').textContent=tot+' unita';
 }
