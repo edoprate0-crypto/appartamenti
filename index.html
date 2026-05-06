@@ -352,19 +352,52 @@ function renderMetrics(){
 }
 
 const renders={
-  dashboard(){
+dashboard(){
     const now=new Date();
     const monthLabel=MONTHS[now.getMonth()]+' '+now.getFullYear();
     const nextScads=[...data.scadenze].sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
     const recentPays=[...data.pagamenti].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6);
+    
+    // Grafico ultimi 6 mesi
+    const mesiGrafico=[];
+    for(let i=5;i>=0;i--){
+      const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+      const label=MONTHS[d.getMonth()]+' '+d.getFullYear();
+      const incassato=data.pagamenti.filter(p=>p.month===label).reduce((s,p)=>s+p.amt,0);
+      const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).reduce((s,a)=>s+a.rent,0);
+      mesiGrafico.push({label:MONTHS[d.getMonth()].slice(0,3),incassato,previsto});
+    }
+    const maxVal=Math.max(...mesiGrafico.map(m=>m.previsto),1);
+    
     document.getElementById('dashboard').innerHTML=`
       <p class="sec-title">Stato pagamenti — ${monthLabel}</p>
       <div class="pay-grid">${data.appartamenti.map(a=>{
         const paid=data.pagamenti.find(p=>p.aptId===a.id&&p.month===monthLabel);
         const oggi=new Date();
-const inRitardo=!paid&&oggi.getDate()>=10;
-return`<div class="pay-cell ${paid?'paid':inRitardo?'late':''}"><span class="pay-cell-code">${a.code}</span><span class="pay-cell-status">${paid?'✓ Pagato':inRitardo?'⚠️ In ritardo':'Attesa'}</span></div>`;
+        const inRitardo=!paid&&oggi.getDate()>=10;
+        return`<div class="pay-cell ${paid?'paid':inRitardo?'late':''}"><span class="pay-cell-code">${a.code}</span><span class="pay-cell-status">${paid?'✓ Pagato':inRitardo?'⚠️ Ritardo':'Attesa'}</span></div>`;
       }).join('')}</div>
+      
+      <p class="sec-title">Entrate ultimi 6 mesi</p>
+      <div style="background:var(--bg2);border-radius:var(--radius);padding:16px;border:0.5px solid var(--border);margin-bottom:10px">
+        <div style="display:flex;align-items:flex-end;gap:8px;height:80px;margin-bottom:8px">
+          ${mesiGrafico.map(m=>`
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;height:100%">
+              <div style="flex:1;width:100%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px">
+                <div style="width:100%;height:${Math.round((m.previsto/maxVal)*100)}%;background:var(--border2);border-radius:3px 3px 0 0;min-height:2px"></div>
+                <div style="width:100%;height:${Math.round((m.incassato/maxVal)*100)}%;background:var(--green);border-radius:3px 3px 0 0;min-height:${m.incassato>0?'2px':'0'};margin-top:-${Math.round((m.previsto/maxVal)*100)}%;position:relative;bottom:0"></div>
+              </div>
+            </div>`).join('')}
+        </div>
+        <div style="display:flex;gap:8px">
+          ${mesiGrafico.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3)">${m.label}</div>`).join('')}
+        </div>
+        <div style="display:flex;gap:16px;margin-top:10px">
+          <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><div style="width:10px;height:10px;background:var(--green);border-radius:2px"></div>Incassato</div>
+          <div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><div style="width:10px;height:10px;background:var(--border2);border-radius:2px"></div>Previsto</div>
+        </div>
+      </div>
+      
       <p class="sec-title">Prossime scadenze</p>
       ${nextScads.length?nextScads.map(s=>{const b=scadBadge(s.date);return`<div class="scad-item"><div><div class="scad-name"><span class="dot ${b.cls}"></span>${s.type}</div><div class="scad-sub">${s.aptId===0?'Tutti':aptLabel(s.aptId)} — ${fmtDate(s.date)}</div></div><span class="badge ${b.cls}">${b.txt}</span></div>`;}).join(''):'<div class="empty">Nessuna scadenza</div>'}
       <p class="sec-title">Ultimi pagamenti</p>
