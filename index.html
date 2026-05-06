@@ -427,11 +427,34 @@ dashboard(){
   pagamenti(){
     const sorted=[...data.pagamenti].sort((a,b)=>b.date.localeCompare(a.date));
     const totale=data.pagamenti.reduce((s,p)=>s+p.amt,0);
+    const now=new Date();
+    const annoCorrente=now.getFullYear();
+    const totaleAnno=data.pagamenti.filter(p=>p.month&&p.month.includes(annoCorrente)).reduce((s,p)=>s+p.amt,0);
+    const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).reduce((s,a)=>s+a.rent,0)*12;
     document.getElementById('pagamenti').innerHTML=`
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
         <div class="metric"><div class="metric-label">Totale incassato</div><div class="metric-val green" style="font-size:16px">${fmtAmt(totale)}</div></div>
         <div class="metric"><div class="metric-label">N. pagamenti</div><div class="metric-val">${data.pagamenti.length}</div></div>
       </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+        <div class="metric"><div class="metric-label">${annoCorrente} incassato</div><div class="metric-val green" style="font-size:16px">${fmtAmt(totaleAnno)}</div></div>
+        <div class="metric"><div class="metric-label">${annoCorrente} previsto</div><div class="metric-val" style="font-size:16px">${fmtAmt(previsto)}</div></div>
+      </div>
+      <p class="sec-title">Storico per appartamento</p>
+      ${data.appartamenti.map(a=>{
+        const pags=data.pagamenti.filter(p=>p.aptId===a.id).sort((x,y)=>y.date.localeCompare(x.date));
+        const totApt=pags.reduce((s,p)=>s+p.amt,0);
+        if(pags.length===0)return'';
+        return`<div class="card" style="margin-bottom:8px">
+          <div class="card-header" style="margin-bottom:8px">
+            <div><div class="card-code">${a.code}</div><div class="card-name">${a.tenant.split('/')[0].trim()}</div></div>
+            <div class="pay-amount" style="font-size:13px">${fmtAmt(totApt)}</div>
+          </div>
+          ${pags.slice(0,3).map(p=>`<div class="row"><span class="row-label">${p.month}</span><span class="row-val">${fmtAmt(p.amt)}</span></div>`).join('')}
+          ${pags.length>3?`<div style="font-size:11px;color:var(--text3);text-align:center;padding:6px 0">+ altri ${pags.length-3} pagamenti</div>`:''}
+        </div>`;
+      }).join('')}
+      <p class="sec-title">Tutti i pagamenti</p>
       ${sorted.map(p=>`<div class="pay-row"><div><div class="pay-apt">${aptLabel(p.aptId)}</div><div class="pay-date">${p.month} — ${fmtDate(p.date)}${p.note?' · '+p.note:''}</div></div><div style="display:flex;align-items:center;gap:8px"><div class="pay-amount">${fmtAmt(p.amt)}</div><button class="del-btn" onclick="deletePay(${p.id})">✕</button></div></div>`).join('')||'<div class="empty">Nessun pagamento registrato</div>'}`;
   },
   scadenze(){
