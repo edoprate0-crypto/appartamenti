@@ -506,9 +506,15 @@ document.querySelectorAll('.modal-overlay').forEach(el=>{
   el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id.replace('modal-',''));});
 });
 
-renderMetrics();
-renders.dashboard();
 document.getElementById('fab').style.display='none';
+showLoading(true);
+cloudLoad().then(cloud=>{
+  if(cloud&&cloud.appartamenti&&cloud.appartamenti.length>0){data=cloud;}
+  else{cloudSave(data);}
+  showLoading(false);
+  renderMetrics();
+  renders.dashboard();
+});
 </script>
 </body>
 </html>
