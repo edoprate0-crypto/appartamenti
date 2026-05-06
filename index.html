@@ -455,7 +455,11 @@ dashboard(){
         </div>`;
       }).join('')}
       <p class="sec-title">Tutti i pagamenti</p>
-      ${sorted.map(p=>`<div class="pay-row"><div><div class="pay-apt">${aptLabel(p.aptId)}</div><div class="pay-date">${p.month} — ${fmtDate(p.date)}${p.note?' · '+p.note:''}</div></div><div style="display:flex;align-items:center;gap:8px"><div class="pay-amount">${fmtAmt(p.amt)}</div><button class="del-btn" onclick="deletePay(${p.id})">✕</button></div></div>`).join('')||'<div class="empty">Nessun pagamento registrato</div>'}`;
+      ${sorted.map(p=>{
+        const giorno=p.date?parseInt(p.date.split('-')[2]):99;
+        const dot=giorno<=10?'#22c55e':giorno<=15?'#f59e0b':'#ef4444';
+        return`<div class="pay-row"><div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0"></div><div><div class="pay-apt">${aptLabel(p.aptId)}</div><div class="pay-date">${p.month} — ${fmtDate(p.date)}${p.note?' · '+p.note:''}</div></div></div><div style="display:flex;align-items:center;gap:8px"><div class="pay-amount">${fmtAmt(p.amt)}</div><button class="del-btn" onclick="deletePay(${p.id})">✕</button></div></div>`;
+      }).join('')||'<div class="empty">Nessun pagamento registrato</div>'}`;
   },
   scadenze(){
     const sorted=[...data.scadenze].sort((a,b)=>a.date.localeCompare(b.date));
