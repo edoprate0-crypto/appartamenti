@@ -398,7 +398,7 @@ const renders={
       ${filtered.map(a=>`<div class="card">
         <div class="card-header">
           <div><div class="card-code">${a.code}</div><div class="card-name">${a.tenant||'-'}</div></div>
-          <div style="display:flex;gap:6px;align-items:center"><span class="badge ${a.status==='affittato'?'green':'gray'}">${a.status==='affittato'?'Affittato':'Libero'}</span><button class="edit-btn" onclick="openAptModal(${a.id})">&#9999;&#65039;</button></div>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">${(()=>{const pags=data.pagamenti.filter(p=>p.aptId===a.id&&p.date);if(pags.length<2)return'';const ritardi=pags.filter(p=>parseInt(p.date.split('-')[2])>10).length;const pct=Math.round((ritardi/pags.length)*100);if(pct===0)return'<span class="badge green">Sempre puntuale</span>';if(pct<=30)return'<span class="badge amber">Raramente in ritardo</span>';if(pct<=70)return'<span class="badge amber">Spesso in ritardo</span>';return'<span class="badge red">Sempre in ritardo</span>';})()}<span class="badge ${a.status==='affittato'?'green':'gray'}">${a.status==='affittato'?'Affittato':'Libero'}</span><button class="edit-btn" onclick="openAptModal(${a.id})">&#9999;&#65039;</button></div>
         </div>
         <div class="row"><span class="row-label">Telefono</span><a href="tel:${a.tel}" style="color:var(--blue);font-size:12px;font-weight:500;text-decoration:none">${a.tel||'-'}</a></div>
         <div class="row"><span class="row-label">Email</span><span class="row-val" style="font-size:11px">${a.email||'-'}</span></div>
