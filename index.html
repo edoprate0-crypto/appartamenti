@@ -46,6 +46,9 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
 .pay-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .pay-cell{background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;border:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .pay-cell.paid{background:var(--green-bg);border-color:rgba(34,197,94,0.25)}
+.pay-cell.late{background:var(--red-bg);border-color:rgba(239,68,68,0.25)}
+.pay-cell.late .pay-cell-code{color:var(--red)}
+.pay-cell.late .pay-cell-status{color:var(--red);opacity:.8}
 .pay-cell-code{font-family:'DM Mono',monospace;font-size:12px;font-weight:500}
 .pay-cell.paid .pay-cell-code{color:var(--green)}
 .pay-cell-status{font-size:10px;color:var(--text3)}
@@ -358,7 +361,9 @@ const renders={
       <p class="sec-title">Stato pagamenti — ${monthLabel}</p>
       <div class="pay-grid">${data.appartamenti.map(a=>{
         const paid=data.pagamenti.find(p=>p.aptId===a.id&&p.month===monthLabel);
-        return`<div class="pay-cell ${paid?'paid':''}"><span class="pay-cell-code">${a.code}</span><span class="pay-cell-status">${paid?'✓ Pagato':'Attesa'}</span></div>`;
+        const oggi=new Date();
+const inRitardo=!paid&&oggi.getDate()>=10;
+return`<div class="pay-cell ${paid?'paid':inRitardo?'late':''}"><span class="pay-cell-code">${a.code}</span><span class="pay-cell-status">${paid?'✓ Pagato':inRitardo?'⚠️ In ritardo':'Attesa'}</span></div>`;
       }).join('')}</div>
       <p class="sec-title">Prossime scadenze</p>
       ${nextScads.length?nextScads.map(s=>{const b=scadBadge(s.date);return`<div class="scad-item"><div><div class="scad-name"><span class="dot ${b.cls}"></span>${s.type}</div><div class="scad-sub">${s.aptId===0?'Tutti':aptLabel(s.aptId)} — ${fmtDate(s.date)}</div></div><span class="badge ${b.cls}">${b.txt}</span></div>`;}).join(''):'<div class="empty">Nessuna scadenza</div>'}
