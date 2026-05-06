@@ -294,8 +294,8 @@ function showLoading(show){
   }
 }
 
-function save(){try{localStorage.setItem('apt_app_v2',JSON.stringify(data));}catch(e){}}
-
+function save(){cloudSave(data);}
+  
 function today(){return new Date().toISOString().split('T')[0];}
 function daysTo(d){return Math.round((new Date(d)-new Date(today()))/86400000);}
 function scadBadge(d){const n=daysTo(d);if(n<0)return{cls:'red',txt:'Scaduta'};if(n<=30)return{cls:'amber',txt:n+'gg'};return{cls:'green',txt:n+'gg'};}
