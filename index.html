@@ -2,57 +2,75 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
 <title>Gestionale Immobili Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#222;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);--text:#f0f0f0;--text2:#888;--text3:#555;--green:#22c55e;--green-bg:rgba(34,197,94,0.12);--amber:#f59e0b;--amber-bg:rgba(245,158,11,0.12);--red:#ef4444;--red-bg:rgba(239,68,68,0.12);--blue:#3b82f6;--accent:#22c55e;--radius:14px;--radius-sm:8px;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.app{max-width:480px;margin:0 auto;padding-bottom:120px}
-.header{padding:50px 20px 10px}
-.header h1{font-size:24px;font-weight:600}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px}
+.app{max-width:480px;margin:0 auto}
+
+/* Header & Metrics */
+.header{padding:40px 20px 10px}
+.header h1{font-size:24px;font-weight:700;letter-spacing:-0.5px}
 .metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:15px 20px}
 .metric{background:var(--bg2);border-radius:var(--radius);padding:14px;border:0.5px solid var(--border)}
-.metric-label{font-size:10px;color:var(--text2);text-transform:uppercase;margin-bottom:4px}
-.metric-val{font-size:18px;font-weight:600;font-family:'DM Mono'}
-.tab-bar{display:flex;padding:0 20px 15px;overflow-x:auto;gap:8px}
-.tab-btn{padding:8px 16px;border:0.5px solid var(--border);border-radius:20px;background:none;color:var(--text2);font-size:13px;white-space:nowrap;cursor:pointer}
+.metric-label{font-size:10px;color:var(--text2);text-transform:uppercase;margin-bottom:4px;letter-spacing:0.5px}
+.metric-val{font-size:18px;font-weight:600;font-family:'DM Mono',monospace}
+
+/* Tabs */
+.tab-bar{display:flex;padding:0 20px 15px;overflow-x:auto;gap:8px;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{padding:8px 16px;border:0.5px solid var(--border);border-radius:20px;background:none;color:var(--text2);font-size:13px;white-space:nowrap;cursor:pointer;transition:0.2s}
 .tab-btn.active{background:var(--text);color:var(--bg);font-weight:600}
+
+/* Content */
 .content{padding:0 20px}
 .section{display:none}.section.active{display:block}
 .card{background:var(--bg2);border-radius:var(--radius);padding:16px;border:0.5px solid var(--border);margin-bottom:12px}
+.card-title{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
 .row{display:flex;justify-content:space-between;padding:8px 0;border-top:0.5px solid var(--border);font-size:13px}
-.badge{font-size:10px;padding:3px 8px;border-radius:10px;font-weight:600}
+.row-val{font-weight:500;font-family:'DM Mono',monospace}
+
+/* UI Elements */
+.badge{font-size:10px;padding:3px 8px;border-radius:10px;font-weight:600;text-transform:uppercase}
 .badge.red{background:var(--red-bg);color:var(--red)}
 .badge.green{background:var(--green-bg);color:var(--green)}
-.btn-wa{background:#25D366;color:white;border:none;padding:6px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-weight:600}
-.fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:28px;background:var(--accent);border:none;font-size:24px;box-shadow:0 4px 15px rgba(0,0,0,0.3);z-index:100}
-.bottom-nav{position:fixed;bottom:0;width:100%;max-width:480px;background:rgba(20,20,20,0.95);backdrop-filter:blur(10px);display:flex;justify-content:space-around;padding:12px 0 25px;border-top:0.5px solid var(--border)}
-.nav-item{background:none;border:none;color:var(--text3);font-size:10px;display:flex;flex-direction:column;align-items:center}
+.btn-wa{background:#25D366;color:white;border:none;padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-weight:700}
+.fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:28px;background:var(--accent);border:none;font-size:24px;color:black;box-shadow:0 8px 24px rgba(0,0,0,0.4);z-index:100;display:flex;align-items:center;justify-content:center}
+
+/* Navigation */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(15,15,15,0.95);backdrop-filter:blur(15px);display:flex;justify-content:space-around;padding:12px 0 30px;border-top:0.5px solid var(--border);z-index:90}
+.nav-item{background:none;border:none;color:var(--text3);font-size:10px;display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;cursor:pointer}
 .nav-item.active{color:var(--accent)}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;align-items:flex-end}
-.modal{background:var(--bg2);width:100%;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;padding:20px;max-height:90vh;overflow-y:auto}
-input,select,textarea{width:100%;padding:12px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:white;margin-top:5px}
-.btn-save{background:var(--accent);color:black;font-weight:700;padding:15px;border:none;width:100%;border-radius:10px;margin-top:20px}
+.nav-icon{font-size:20px}
+
+/* Modals */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:flex-end}
+.modal-overlay.active{display:flex}
+.modal{background:var(--bg2);width:100%;max-width:480px;margin:0 auto;border-radius:24px 24px 0 0;padding:24px;max-height:85vh;overflow-y:auto;border-top:1px solid var(--border2)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;color:var(--text2);margin-bottom:6px;text-transform:uppercase}
+input,select{width:100%;padding:14px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:white;font-family:inherit;font-size:15px;outline:none}
+.btn-save{background:var(--accent);color:black;font-weight:700;padding:16px;border:none;width:100%;border-radius:12px;margin-top:10px;font-size:16px}
 </style>
 </head>
 <body>
 
 <div class="app">
     <div class="header">
-        <h1 id="main-title">Proprietà 2026</h1>
+        <h1 id="main-title">I Miei Immobili</h1>
     </div>
 
-    <div class="metrics" id="metrics-grid">
-        <!-- Rendered via JS -->
-    </div>
+    <div class="metrics" id="metrics-grid"></div>
 
     <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('dashboard')">Home</button>
-        <button class="tab-btn" onclick="switchTab('appartamenti')">Appartamenti</button>
-        <button class="tab-btn" onclick="switchTab('pagamenti')">Pagamenti</button>
-        <button class="tab-btn" onclick="switchTab('bilancio')">Bilancio</button>
+        <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+        <button class="tab-btn" data-tab="appartamenti">Appartamenti</button>
+        <button class="tab-btn" data-tab="pagamenti">Pagamenti</button>
+        <button class="tab-btn" data-tab="bilancio">Bilancio</button>
     </div>
 
     <div class="content">
@@ -61,10 +79,11 @@ input,select,textarea{width:100%;padding:12px;background:var(--bg3);border:1px s
         <div id="pagamenti" class="section"></div>
         <div id="bilancio" class="section">
             <div class="card">
-                <h3>Esporta Dati</h3>
-                <p style="color:var(--text2); font-size:12px; margin:10px 0;">Scarica tutti i dati in formato CSV per Excel.</p>
-                <button class="btn-save" onclick="exportToCSV()" style="background:var(--blue); color:white;">Scarica Backup CSV</button>
+                <h3>Backup e Report</h3>
+                <p style="color:var(--text2); font-size:12px; margin:12px 0;">Scarica lo storico completo in formato CSV per Excel.</p>
+                <button class="btn-save" onclick="exportCSV()" style="background:var(--blue); color:white;">Scarica Report CSV</button>
             </div>
+            <div id="rendimento-dettaglio"></div>
         </div>
     </div>
 </div>
@@ -72,161 +91,180 @@ input,select,textarea{width:100%;padding:12px;background:var(--bg3);border:1px s
 <button class="fab" onclick="openModal()">+</button>
 
 <nav class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('dashboard')"><span>🏠</span>Home</button>
-    <button class="nav-item" onclick="switchTab('appartamenti')"><span>🏢</span>Apt</button>
-    <button class="nav-item" onclick="switchTab('pagamenti')"><span>€</span>Pag.</button>
-    <button class="nav-item" onclick="switchTab('bilancio')"><span>📊</span>Bilancio</button>
+    <button class="nav-item active" data-tab="dashboard"><span class="nav-icon">🏠</span>Home</button>
+    <button class="nav-item" data-tab="appartamenti"><span class="nav-icon">🏢</span>Apt</button>
+    <button class="nav-item" data-tab="pagamenti"><span class="nav-icon">€</span>Pag.</button>
+    <button class="nav-item" data-tab="bilancio"><span class="nav-icon">📊</span>Stat.</button>
 </nav>
 
-<!-- MODAL REGISTRAZIONE -->
+<!-- MODALE PAGAMENTO -->
 <div class="modal-overlay" id="modal">
     <div class="modal">
-        <h3>Registra Pagamento</h3>
-        <label>Appartamento</label>
-        <select id="p-apt"></select>
-        <label>Importo Ricevuto (€)</label>
-        <input type="number" id="p-amt" step="0.01">
-        <label>Mese Riferimento</label>
-        <select id="p-month">
-            <option>Maggio 2026</option>
-            <option>Aprile 2026</option>
-            <option>Marzo 2026</option>
-        </select>
-        <button class="btn-save" onclick="savePayment()">Conferma</button>
-        <button onclick="closeModal()" style="background:none; border:none; color:var(--text2); width:100%; margin-top:10px;">Chiudi</button>
+        <h3 style="margin-bottom:20px">Registra Pagamento</h3>
+        <div class="field">
+            <label>Appartamento</label>
+            <select id="p-apt"></select>
+        </div>
+        <div class="field">
+            <label>Importo (€)</label>
+            <input type="number" id="p-amt" step="0.01" placeholder="0.00">
+        </div>
+        <div class="field">
+            <label>Mese Riferimento</label>
+            <select id="p-month">
+                <option>Maggio 2026</option>
+                <option>Giugno 2026</option>
+                <option>Luglio 2026</option>
+            </select>
+        </div>
+        <button class="btn-save" onclick="savePayment()">Salva Pagamento</button>
+        <button onclick="closeModal()" style="background:none; border:none; color:var(--text2); width:100%; margin-top:15px; font-size:14px">Annulla</button>
     </div>
 </div>
 
 <script>
-// --- CONFIGURAZIONE E DATI ---
-let data = {
+// --- DATABASE INIZIALE ---
+let db = {
     appartamenti: [
         {id:1, code:'A1', tenant:'M. Chakyry', tel:'3661145877', rent:293.09, status:'affittato', value:80000},
-        {id:2, code:'A2', tenant:'F. Spinelli', tel:'3663490217', rent:322.45, status:'affittato', value:85000}
+        {id:2, code:'A2', tenant:'F. Spinelli', tel:'3663490217', rent:322.45, status:'affittato', value:85000},
+        {id:3, code:'A3', tenant:'E. Carpentieri', tel:'3661132413', rent:319.43, status:'affittato', value:90000}
     ],
     pagamenti: [],
-    spese: []
+    nextId: 100
 };
 
-// --- LOGICA CORE ---
-function init() {
-    const saved = localStorage.getItem('gestionale_v4');
-    if(saved) data = JSON.parse(saved);
+// --- CARICAMENTO E SALVATAGGIO ---
+function load() {
+    const saved = localStorage.getItem('immobili_db_v5');
+    if(saved) db = JSON.parse(saved);
     renderAll();
 }
 
+function save() {
+    localStorage.setItem('immobili_db_v5', JSON.stringify(db));
+}
+
+// --- RENDERIZZAZIONE ---
 function renderAll() {
     renderMetrics();
     renderDashboard();
     renderAppartamenti();
-    populateSelects();
+    renderPagamenti();
+    populateAptSelect();
 }
 
 function renderMetrics() {
-    const totalRent = data.appartamenti.reduce((acc, a) => acc + a.rent, 0);
-    const received = data.pagamenti.reduce((acc, p) => acc + p.amt, 0);
-    const value = data.appartamenti.reduce((acc, a) => acc + (a.value || 0), 0);
+    const totalRent = db.appartamenti.reduce((acc, a) => acc + a.rent, 0);
+    const value = db.appartamenti.reduce((acc, a) => acc + (a.value || 0), 0);
     const roi = value > 0 ? ((totalRent * 12) / value * 100).toFixed(1) : 0;
 
     document.getElementById('metrics-grid').innerHTML = `
-        <div class="metric"><div class="metric-label">Canone Totale</div><div class="metric-val">€${totalRent.toFixed(2)}</div></div>
-        <div class="metric"><div class="metric-label">ROI Stimato</div><div class="metric-val" style="color:var(--green)">${roi}%</div></div>
+        <div class="metric"><div class="metric-label">Entrate/Mese</div><div class="metric-val">€${totalRent.toFixed(2)}</div></div>
+        <div class="metric"><div class="metric-label">Resa Annua</div><div class="metric-val" style="color:var(--green)">${roi}%</div></div>
     `;
+}
+
+function renderDashboard() {
+    let html = '<p class="metric-label" style="margin-bottom:10px">Ultimi Pagamenti</p>';
+    if(db.pagamenti.length === 0) html += '<div class="card">Nessun pagamento registrato.</div>';
+    
+    db.pagamenti.slice(-4).reverse().forEach(p => {
+        html += `
+            <div class="card" style="padding:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center">
+                <div>
+                    <div style="font-weight:600">${p.aptCode}</div>
+                    <div style="font-size:11px; color:var(--text2)">${p.month}</div>
+                </div>
+                <div style="color:var(--green); font-family:'DM Mono'; font-weight:600">+€${p.amt.toFixed(2)}</div>
+            </div>`;
+    });
+    document.getElementById('dashboard').innerHTML = html;
 }
 
 function renderAppartamenti() {
     let html = '';
-    data.appartamenti.forEach(a => {
-        const saldo = calculateSaldo(a.id);
+    db.appartamenti.forEach(a => {
+        const pagatoMese = db.pagamenti.some(p => p.aptId === a.id && p.month === 'Maggio 2026');
         html += `
         <div class="card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px">
-                <strong>${a.code} - ${a.tenant}</strong>
-                <button class="btn-wa" onclick="sendWA('${a.tel}', '${a.tenant}')">WhatsApp</button>
+            <div class="card-title">
+                <div>
+                    <div style="font-size:11px; color:var(--text2); font-family:'DM Mono'">${a.code}</div>
+                    <div style="font-size:16px; font-weight:600">${a.tenant}</div>
+                </div>
+                <button class="btn-wa" onclick="sendWA('${a.tel}', '${a.tenant}', 'Maggio')">WhatsApp</button>
             </div>
-            <div class="row"><span>Canone:</span><span>€${a.rent}</span></div>
-            <div class="row"><span>Saldo Arretrati:</span><span style="color:${saldo < 0 ? 'var(--red)' : 'var(--green)'}">€${saldo.toFixed(2)}</span></div>
+            <div class="row"><span>Canone</span><span class="row-val">€${a.rent.toFixed(2)}</span></div>
+            <div class="row"><span>Stato Maggio</span><span>${pagatoMese ? '<span class="badge green">Pagato</span>' : '<span class="badge red">In Attesa</span>'}</span></div>
         </div>`;
     });
     document.getElementById('appartamenti').innerHTML = html;
 }
 
-function renderDashboard() {
-    const container = document.getElementById('dashboard');
-    container.innerHTML = `<h3>Ultime Attività</h3>`;
-    data.pagamenti.slice(-5).reverse().forEach(p => {
-        container.innerHTML += `
-            <div class="card" style="padding:10px; font-size:12px">
-                <b>${p.aptCode}</b>: +€${p.amt} (${p.month})
-            </div>
-        `;
+function renderPagamenti() {
+    let html = '<p class="metric-label" style="margin-bottom:10px">Storico Completo</p>';
+    db.pagamenti.forEach(p => {
+        html += `<div class="row" style="border-top:none; border-bottom:0.5px solid var(--border)">
+            <span>${p.month} - <b>${p.aptCode}</b></span>
+            <span class="row-val">€${p.amt.toFixed(2)}</span>
+        </div>`;
     });
+    document.getElementById('pagamenti').innerHTML = html;
 }
 
-// --- FUNZIONALITÀ AGGIUNTE ---
+// --- LOGICA DI BUSINESS ---
+function savePayment() {
+    const aptId = parseInt(document.getElementById('p-apt').value);
+    const amt = parseFloat(document.getElementById('p-amt').value);
+    const month = document.getElementById('p-month').value;
+    const apt = db.appartamenti.find(a => a.id === aptId);
 
-function calculateSaldo(aptId) {
-    // Calcolo semplificato: Differenza tra quanto dovuto finora e quanto pagato
-    // Per ora lo simuliamo basandoci sugli ultimi 3 mesi
-    const apt = data.appartamenti.find(x => x.id === aptId);
-    const pagato = data.pagamenti.filter(p => p.aptId === aptId).reduce((acc, p) => acc + p.amt, 0);
-    // Supponiamo che il debito totale sia rent * numero mesi (es. 1 mese per demo)
-    const dovuto = apt.rent * 1; 
-    return pagato - dovuto;
+    if(!amt) return alert("Inserisci un importo");
+
+    db.pagamenti.push({ aptId, aptCode: apt.code, amt, month, date: new Date().toISOString() });
+    save();
+    closeModal();
+    renderAll();
 }
 
-function sendWA(tel, name) {
-    const msg = encodeURIComponent(`Ciao ${name}, ti scrivo dal gestionale per ricordarti la scadenza dell'affitto. Un saluto!`);
-    window.open(`https://wa.me/${tel}?text=${msg}`);
+function sendWA(tel, name, mese) {
+    const msg = encodeURIComponent(`Ciao ${name}, ti scrivo per ricordarti la scadenza dell'affitto di ${mese}. Grazie!`);
+    window.open(`https://wa.me/39${tel}?text=${msg}`);
 }
 
-function exportToCSV() {
-    let csv = "Data,Appartamento,Inquilino,Importo,Mese\n";
-    data.pagamenti.forEach(p => {
-        csv += `${new Date().toLocaleDateString()},${p.aptCode},${p.amt},${p.month}\n`;
-    });
+function exportCSV() {
+    let csv = "Data,Appartamento,Mese,Importo\n";
+    db.pagamenti.forEach(p => { csv += `${p.date.split('T')[0]},${p.aptCode},${p.month},${p.amt}\n`; });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.setAttribute('href', url);
-    a.setAttribute('download', 'backup_immobili.csv');
-    a.click();
+    a.href = url; a.download = 'report_immobili.csv'; a.click();
 }
 
-// --- GESTIONE UI ---
-function switchTab(id) {
+// --- NAVIGAZIONE ---
+function switchTab(tabId) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    renderAll();
+    document.querySelectorAll('.tab-btn, .nav-item').forEach(btn => {
+        if(btn.getAttribute('data-tab') === tabId) btn.classList.add('active');
+        else btn.classList.remove('active');
+    });
+    document.getElementById(tabId).classList.add('active');
 }
 
-function openModal() { document.getElementById('modal').style.display = 'flex'; }
-function closeModal() { document.getElementById('modal').style.display = 'none'; }
+document.querySelectorAll('.tab-btn, .nav-item').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab')));
+});
 
-function populateSelects() {
-    const s = document.getElementById('p-apt');
-    s.innerHTML = data.appartamenti.map(a => `<option value="${a.id}">${a.code}</option>`).join('');
+function openModal() { document.getElementById('modal').classList.add('active'); }
+function closeModal() { document.getElementById('modal').classList.remove('active'); }
+
+function populateAptSelect() {
+    document.getElementById('p-apt').innerHTML = db.appartamenti.map(a => `<option value="${a.id}">${a.code} - ${a.tenant}</option>`).join('');
 }
 
-function savePayment() {
-    const id = parseInt(document.getElementById('p-apt').value);
-    const apt = data.appartamenti.find(x => x.id === id);
-    const pay = {
-        aptId: id,
-        aptCode: apt.code,
-        amt: parseFloat(document.getElementById('p-amt').value),
-        month: document.getElementById('p-month').value,
-        date: new Date().toISOString()
-    };
-    data.pagamenti.push(pay);
-    localStorage.setItem('gestionale_v4', JSON.stringify(data));
-    closeModal();
-    renderAll();
-    alert("Pagamento registrato!");
-}
-
-init();
+// Avvio
+load();
 </script>
 </body>
 </html>
