@@ -345,7 +345,7 @@ function renderMetrics(){
   document.getElementById('metrics-bar').innerHTML=`
     <div class="metric"><div class="metric-label">Affittati</div><div class="metric-val">${aff}/${tot}</div></div>
     <div class="metric"><div class="metric-label">Pagati (${MONTHS[now.getMonth()].slice(0,3)})</div><div class="metric-val ${paidNow<aff?'amber':''}">${paidNow}/${aff}</div></div>
-    <div class="metric"><div class="metric-label">Entrate/mese</div><div class="metric-val green">${totRent>0?'\u20AC'+totRent.toLocaleString('it')
+    <div class="metric"><div class="metric-label">Entrate/mese</div><div class="metric-val green" style="font-size:16px">${totRent>0?'\u20AC'+totRent.toLocaleString('it')
     <div class="metric"><div class="metric-label">Scadenze</div><div class="metric-val ${scadute>0?'red':urgScad>0?'amber':''}">${scadute>0?scadute+' scad.':urgScad>0?urgScad+' urg.':'OK'}</div></div>`;
   document.getElementById('hdr-badge').textContent=tot+' unita';
 }
