@@ -310,7 +310,7 @@ const DEFAULT={
 };
 
 let data;
-try{const s=localStorage.getItem('apt_app_v4');data=s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT));}
+try{const s=localStorage.getItem('apt_app_v3');data=s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT));}
 catch(e){data=JSON.parse(JSON.stringify(DEFAULT));}
 
 function showLoading(show){
