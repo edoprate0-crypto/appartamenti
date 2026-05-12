@@ -446,6 +446,7 @@ const renders={
       </div>
       <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">${anni.map(y=>`<button onclick="window._annoFiltro=${y};renders.pagamenti()" style="padding:6px 14px;border:0.5px solid var(--border);border-radius:20px;background:${y==annoFiltro?'var(--text)':'none'};color:${y==annoFiltro?'var(--bg)':'var(--text2)'};font-size:12px;cursor:pointer">${y}</button>`).join('')}</div>
       <p class="sec-title">Pagamenti ${annoFiltro}</p>
+<button onclick="exportCSV(${annoFiltro})" style="display:flex;align-items:center;gap:6px;padding:10px 16px;border:0.5px solid var(--border2);border-radius:var(--radius-sm);background:none;color:var(--blue);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:12px;width:100%">&#128190; Scarica CSV ${annoFiltro} per commercialista</button>
       ${sorted.map(p=>{const g=p.date?parseInt(p.date.split('-')[2]):99;const dot=g<=10?'#22c55e':g<=15?'#f59e0b':'#ef4444';return`<div class="pay-row"><div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0"></div><div><div class="pay-apt">${aptLabel(p.aptId)}</div><div class="pay-date">${p.month} - ${fmtDate(p.date)}${p.note?' - '+p.note:''}</div>${(()=>{const apt=data.appartamenti.find(a=>a.id===p.aptId);return apt&&apt.rent>0&&Math.abs(p.amt-apt.rent)>0.5?`<div style="font-size:10px;color:var(--amber);margin-top:2px">Canone previsto ${fmtAmt(apt.rent)}</div>`:''})()}</div></div><div style="display:flex;align-items:center;gap:8px"><div class="pay-amount">${fmtAmt(p.amt)}</div><button class="del-btn" onclick="deletePay(${p.id})">X</button></div></div>`;}).join('')||'<div class="empty">Nessun pagamento registrato</div>'}`;
   },
   scadenze(){
@@ -585,7 +586,20 @@ function sendWA(tel, nome){
   const msg = encodeURIComponent('Ciao ' + nome.split(' ')[0] + ', ti ricordo gentilmente la scadenza dell affitto per il mese di ' + mese + '. Grazie!');
   window.open('https://wa.me/39' + tel.replace(/\D/g,'') + '?text=' + msg);
 }
-
+function exportCSV(anno){
+  const righe=data.pagamenti.filter(p=>p.month&&p.month.includes(anno));
+  let csv='Appartamento;Inquilino;Mese;Data;Importo;Note\n';
+  righe.forEach(p=>{
+    const apt=data.appartamenti.find(a=>a.id===p.aptId);
+    csv+=`${apt?apt.code:'-'};${apt?apt.tenant:'-'};${p.month};${p.date};${p.amt.toFixed(2)};${p.note||''}\n`;
+  });
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='pagamenti_'+anno+'.csv';a.click();
+  URL.revokeObjectURL(url);
+}
+function deletePay(id){
 function deletePay(id){if(confirm('Eliminare questo pagamento?')){data.pagamenti=data.pagamenti.filter(p=>p.id!==id);save();renders.pagamenti();renderMetrics();}}
 function deleteScad(id){data.scadenze=data.scadenze.filter(s=>s.id!==id);save();renders.scadenze();}
 function deleteSpesa(id){data.spese=data.spese.filter(s=>s.id!==id);save();renders.spese();}
