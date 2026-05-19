@@ -441,8 +441,8 @@ const renders={
     const now=new Date();
     const annoCorrente=now.getFullYear();
     const totaleAnno=data.pagamenti.filter(p=>p.month&&p.month.includes(annoCorrente)).reduce((s,p)=>s+p.amt,0);
-    const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).reduce((s,a)=>s+a.rent,0)*12;
-
+    const mesiAnno=annoCorrente===2026?8:12;
+const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).reduce((s,a)=>s+a.rent,0)*mesiAnno;
     // Storico per appartamento per anno selezionato
     const storicoApt=data.appartamenti.map(a=>{
       const pags=data.pagamenti.filter(p=>p.aptId===a.id&&p.month&&p.month.includes(annoFiltro));
