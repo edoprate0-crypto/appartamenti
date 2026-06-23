@@ -177,7 +177,7 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
     <div class="field"><label>Data pagamento</label><input id="p-date" type="date"/></div>
     <div class="field"><label>Mese di riferimento</label><select id="p-month">
       <option>Gennaio 2026</option><option>Febbraio 2026</option><option>Marzo 2026</option>
-      <option>Aprile 2026</option><option selected>Maggio 2026</option><option>Giugno 2026</option>
+      <option>Aprile 2026</option><option>Maggio 2026</option><option>Giugno 2026</option>
       <option>Luglio 2026</option><option>Agosto 2026</option><option>Settembre 2026</option>
       <option>Ottobre 2026</option><option>Novembre 2026</option><option>Dicembre 2026</option>
     </select></div>
@@ -624,6 +624,10 @@ function openModal(t){
     document.getElementById('p-date').value=today();
     document.getElementById('p-amt').value='';
     document.getElementById('p-note').value='';
+    const now=new Date();
+    const meseCorrente=MONTHS[now.getMonth()]+' '+now.getFullYear();
+    const sel=document.getElementById('p-month');
+    for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===meseCorrente||sel.options[i].text===meseCorrente){sel.selectedIndex=i;break;}}
   }
   if(t==='scad'){
     document.getElementById('s-apt').innerHTML='<option value="0">Tutti gli appartamenti</option>'+opts;
