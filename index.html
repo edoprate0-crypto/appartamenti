@@ -622,12 +622,14 @@ function openModal(t){
   if(t==='pay'){
     document.getElementById('p-apt').innerHTML=opts;
     document.getElementById('p-date').value=today();
-    document.getElementById('p-amt').value='';
     document.getElementById('p-note').value='';
     const now=new Date();
     const meseCorrente=MONTHS[now.getMonth()]+' '+now.getFullYear();
     const sel=document.getElementById('p-month');
     for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===meseCorrente||sel.options[i].text===meseCorrente){sel.selectedIndex=i;break;}}
+    const aggiornaImporto=function(){const apt=data.appartamenti.find(a=>a.id===parseInt(document.getElementById('p-apt').value));if(apt&&apt.rent>0)document.getElementById('p-amt').value=apt.rent.toFixed(2);};
+    document.getElementById('p-apt').onchange=aggiornaImporto;
+    aggiornaImporto();
   }
   if(t==='scad'){
     document.getElementById('s-apt').innerHTML='<option value="0">Tutti gli appartamenti</option>'+opts;
