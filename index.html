@@ -34,8 +34,7 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
 .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
 .card-code{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);margin-bottom:2px}
 .card-name{font-size:15px;font-weight:500}
-.badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}
-.badge.green{background:var(--green-bg);color:var(--green)}
+.badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}.badge.green{background:var(--green-bg);color:var(--green)}
 .badge.red{background:var(--red-bg);color:var(--red)}
 .badge.amber{background:var(--amber-bg);color:var(--amber)}
 .badge.gray{background:var(--bg3);color:var(--text2)}
@@ -70,8 +69,7 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(15,15,15,0.97);backdrop-filter:blur(20px);border-top:0.5px solid var(--border);padding:8px 0 24px;display:flex;justify-content:space-around;z-index:40}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;cursor:pointer;border:none;background:none;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:10px;transition:color .2s;flex:1}
 .nav-item.active{color:var(--accent)}
-.nav-icon{font-size:20px;line-height:1}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:100;align-items:flex-end;justify-content:center}
+.nav-icon{font-size:20px;line-height:1}.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:100;align-items:flex-end;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--bg2);border-radius:24px 24px 0 0;padding:20px 20px 44px;width:100%;max-width:480px;max-height:88vh;overflow-y:auto;border-top:0.5px solid var(--border2)}
 .modal-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 20px}
@@ -105,10 +103,9 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
   <div class="header">
     <div class="header-top">
       <div><h1>Appartamenti</h1><div class="header-sub">Via Falcone e Borsellino 162</div></div>
-      <span class="header-badge" id="hdr-badge">14 unit&#224;</span>
+      <span class="header-badge" id="hdr-badge">14 unità</span>
     </div>
-  </div>
-  <div class="metrics" id="metrics-bar"></div>
+  </div> <div class="metrics" id="metrics-bar"></div>
   <div class="tab-bar">
     <button class="tab-btn active" onclick="showTab('dashboard',this)">Panoramica</button>
     <button class="tab-btn" onclick="showTab('appartamenti',this)">Appartamenti</button>
@@ -143,7 +140,6 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
   <button class="nav-item" id="nav-contatti" onclick="showTab('contatti',null,'nav-contatti')"><span class="nav-icon">&#128222;</span>Tel.</button>
 </div>
 
-<!-- MODAL APT -->
 <div class="modal-overlay" id="modal-apt">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -167,7 +163,6 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
   </div>
 </div>
 
-<!-- MODAL PAY -->
 <div class="modal-overlay" id="modal-pay">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -175,8 +170,7 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
     <div class="field"><label>Appartamento</label><select id="p-apt"></select></div>
     <div class="field"><label>Importo (&#8364;)</label><input id="p-amt" type="number" step="0.01" placeholder="400.00"/></div>
     <div class="field"><label>Data pagamento</label><input id="p-date" type="date"/></div>
-    <div class="field"><label>Mese di riferimento</label><select id="p-month">
-      <option>Gennaio 2026</option><option>Febbraio 2026</option><option>Marzo 2026</option>
+    <div class="field"><label>Mese di riferimento</label><select id="p-month">  <option>Gennaio 2026</option><option>Febbraio 2026</option><option>Marzo 2026</option>
       <option>Aprile 2026</option><option>Maggio 2026</option><option>Giugno 2026</option>
       <option>Luglio 2026</option><option>Agosto 2026</option><option>Settembre 2026</option>
       <option>Ottobre 2026</option><option>Novembre 2026</option><option>Dicembre 2026</option>
@@ -189,7 +183,6 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
   </div>
 </div>
 
-<!-- MODAL SCAD -->
 <div class="modal-overlay" id="modal-scad">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -210,10 +203,8 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
   </div>
 </div>
 
-<!-- MODAL SPESA -->
 <div class="modal-overlay" id="modal-spesa">
-  <div class="modal">
-    <div class="modal-handle"></div>
+  <div class="modal"> <div class="modal-handle"></div>
     <h3>Nuova spesa</h3>
     <div class="field"><label>Descrizione</label><input id="sp-desc" placeholder="Es. Riparazione caldaia"/></div>
     <div class="field"><label>Importo (&#8364;)</label><input id="sp-amt" type="number" step="0.01" placeholder="150.00"/></div>
@@ -226,7 +217,6 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
   </div>
 </div>
 
-<!-- MODAL MANUTENZIONE -->
 <div class="modal-overlay" id="modal-man">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -246,8 +236,7 @@ html{background:#0f0f0f}body{font-family:'DM Sans',sans-serif;background:#0f0f0f
 
 <script>
 const FB='https://appartamenti-b5529-default-rtdb.europe-west1.firebasedatabase.app';
-async function cloudLoad(){try{const r=await fetch(FB+'/data.json');return await r.json();}catch(e){return null;}}
-async function cloudSave(d){try{await fetch(FB+'/data.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});}catch(e){}}
+async function cloudLoad(){try{const r=await fetch(FB+'/data.json');return await r.json();}catch(e){return null;}}async function cloudSave(d){try{await fetch(FB+'/data.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});}catch(e){}}
 
 const MONTHS=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
 const CONTATTI=[
@@ -303,8 +292,7 @@ const DEFAULT={
     {id:213,type:'Rinnovo contratto',aptId:10,date:'2031-03-01',note:'A10 Ndiaye - scadenza 4+2'},
     {id:214,type:'Rinnovo contratto',aptId:7,date:'2031-07-01',note:'A7 Ouakkar - scadenza 4+2'},
     {id:215,type:'Rinnovo contratto',aptId:8,date:'2031-07-01',note:'A8 Atrous - scadenza 4+2'},
-  ],
-  spese:[],
+  ],spese:[],
   manutenzioni:[],
   nextId:500
 };
@@ -321,7 +309,7 @@ function showLoading(show){
   }else{if(el)el.style.display='none';}
 }
 
-function save(){cloudSave(data);}
+function save(){localStorage.setItem('apt_app_v3', JSON.stringify(data)); cloudSave(data);}
 function today(){return new Date().toISOString().split('T')[0];}
 function daysTo(d){return Math.round((new Date(d)-new Date(today()))/86400000);}
 function scadBadge(d){const n=daysTo(d);if(n<0)return{cls:'red',txt:'Scaduta'};if(n<=30)return{cls:'red',txt:n+'gg'};if(n<=90)return{cls:'amber',txt:n+'gg'};return{cls:'green',txt:n+'gg'};}
@@ -338,8 +326,7 @@ function showTab(t,tabEl,navId){
   curTab=t;
   document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
-  if(tabEl)tabEl.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));if(tabEl)tabEl.classList.add('active');
   document.getElementById(t).classList.add('active');
   const nid=navId||'nav-'+t;
   const ne=document.getElementById(nid);
@@ -365,7 +352,7 @@ function renderMetrics(){
     <div class="metric"><div class="metric-label">Pagati (${MONTHS[now.getMonth()].slice(0,3)})</div><div class="metric-val ${paidNow<aff?'amber':''}">${paidNow}/${aff}</div></div>
     <div class="metric"><div class="metric-label">Entrate/mese</div><div class="metric-val green" style="font-size:16px">${totRent>0?'\u20AC'+totRent.toLocaleString('it'):'--'}</div></div>
     <div class="metric"><div class="metric-label">Scadenze</div><div class="metric-val ${scadute>0?'red':urgScad>0?'amber':''}">${scadute>0?scadute+' scad.':urgScad>0?urgScad+' urg.':'OK'}</div></div>`;
-  document.getElementById('hdr-badge').textContent=tot+' unit\u00e0';
+  document.getElementById('hdr-badge').textContent=tot+' unità';
 }
 
 const renders={
@@ -374,8 +361,7 @@ const renders={
     const monthLabel=MONTHS[now.getMonth()]+' '+now.getFullYear();
     const nextScads=[...data.scadenze].sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
     const recentPays=[...data.pagamenti].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6);
-    const mesiGrafico=[];
-    for(let i=5;i>=0;i--){
+    const mesiGrafico=[];for(let i=5;i>=0;i--){
       const d=new Date(now.getFullYear(),now.getMonth()-i,1);
       const label=MONTHS[d.getMonth()]+' '+d.getFullYear();
       const incassato=data.pagamenti.filter(p=>p.month===label).reduce((s,p)=>s+p.amt,0);
@@ -402,7 +388,7 @@ const renders={
       </div>
       <p class="sec-title">Prossime scadenze</p>
       ${nextScads.length?nextScads.map(s=>{const b=scadBadge(s.date);return`<div class="scad-item"><div><div class="scad-name"><span class="dot ${b.cls}"></span>${s.type}</div><div class="scad-sub">${s.aptId===0?'Tutti':aptLabel(s.aptId)} - ${fmtDate(s.date)}</div></div><span class="badge ${b.cls}">${b.txt}</span></div>`;}).join(''):'<div class="empty">Nessuna scadenza</div>'}
-      <p class="sec-title">Ultimi pagamenti</p>
+      <p class="sec-title">Ultimi pagamenti</p> 
       ${recentPays.length?recentPays.map(p=>`<div class="pay-row"><div><div class="pay-apt">${aptLabel(p.aptId)}</div><div class="pay-date">${p.month} - ${fmtDate(p.date)}</div></div><div class="pay-amount">${fmtAmt(p.amt)}</div></div>`).join(''):'<div class="empty">Nessun pagamento</div>'}`;
   },
   appartamenti(){
@@ -436,13 +422,14 @@ const renders={
     const annoFiltro=window._annoFiltro||new Date().getFullYear();
     const sorted=[...data.pagamenti].filter(p=>!p.month||p.month.includes(annoFiltro)).sort((a,b)=>b.date.localeCompare(a.date));
     const anni=[...new Set(data.pagamenti.map(p=>p.month?p.month.split(' ')[1]:null).filter(Boolean))].sort().reverse();
+    if(anni.length === 0) anni.push(new Date().getFullYear());
     const totale=data.pagamenti.reduce((s,p)=>s+p.amt,0);
     const now=new Date();
     const annoCorrente=now.getFullYear();
     const totaleAnno=data.pagamenti.filter(p=>p.month&&p.month.includes(annoCorrente)).reduce((s,p)=>s+p.amt,0);
     const mesiAnno=annoCorrente===2026?8:12;
-const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).reduce((s,a)=>s+a.rent,0)*mesiAnno;
-    // Storico per appartamento per anno selezionato
+    const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).reduce((s,a)=>s+a.rent,0)*mesiAnno;
+    
     const storicoApt=data.appartamenti.map(a=>{
       const pags=data.pagamenti.filter(p=>p.aptId===a.id&&p.month&&p.month.includes(annoFiltro));
       if(pags.length===0)return'';
@@ -470,7 +457,11 @@ const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).red
       <p class="sec-title">Storico per appartamento - ${annoFiltro}</p>
       ${storicoApt||'<div class="empty">Nessun pagamento per questo anno</div>'}
       <p class="sec-title">Tutti i pagamenti ${annoFiltro}</p>
-      ${sorted.map(p=>{const g=p.date?parseInt(p.date.split('-')[2]):99;const dot=g<=10?'#22c55e':g<=15?'#f59e0b':'#ef4444';return`<div class="pay-row"><div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0"></div><div><div class="pay-apt">${aptLabel(p.aptId)}</div><div class="pay-date">${p.month} - ${fmtDate(p.date)}${p.note?' - '+p.note:''}</div>${(()=>{const apt=data.appartamenti.find(a=>a.id===p.aptId);return apt&&apt.rent>0&&Math.abs(p.amt-apt.rent)>0.5&&!p.verificato?`<div style="font-size:10px;color:var(--amber);margin-top:2px;display:flex;align-items:center;gap:6px">Canone previsto ${fmtAmt(apt.rent)}<button onclick="verificaPay(${p.id})" style="padding:2px 8px;border:0.5px solid var(--amber);border-radius:10px;background:none;color:var(--amber);font-size:10px;cursor:pointer">✓ Corretto</button></div>`:''
+      ${sorted.map(p=>{const g=p.date?parseInt(p.date.split('-')[2]):99;const dot=g<=10?'#22c55e':g<=15?'#f59e0b':'#ef4444';
+        return `<div class="pay-row" style="position:relative"><div style="display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:50%;background:${dot};flex-shrink:0"></div><div><div class="pay-apt">${aptLabel(p.aptId)}</div><div class="pay-date">${p.month} - ${fmtDate(p.date)}${p.note?' - '+p.note:''}</div>
+        ${(()=>{const apt=data.appartamenti.find(a=>a.id===p.aptId);return apt&&apt.rent>0&&Math.abs(p.amt-apt.rent)>0.5&&!p.verificato?`<div style="font-size:10px;color:var(--amber);margin-top:2px;display:flex;align-items:center;gap:6px">Canone previsto ${fmtAmt(apt.rent)}<button onclick="verificaPay(${p.id})" style="padding:2px 8px;border:0.5px solid var(--amber);border-radius:10px;background:none;color:var(--amber);font-size:10px;cursor:pointer">✓ Corretto</button></div>`:''} )()}
+        </div></div><div style="display:flex;align-items:center;gap:12px"><div class="pay-amount">${fmtAmt(p.amt)}</div><button class="del-btn" onclick="deletePay(${p.id})">X</button></div></div>`;
+      }).join('') || '<div class="empty">Nessun record</div>'}`;
   },
   scadenze(){
     const sorted=[...data.scadenze].sort((a,b)=>a.date.localeCompare(b.date));
@@ -497,7 +488,6 @@ const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).red
     const sorted=[...data.manutenzioni].sort((a,b)=>b.date.localeCompare(a.date));
     const totCosti=sorted.reduce((s,x)=>s+(x.costo||0),0);
 
-    // Promemoria caldaia: cerca ultima revisione per ogni apt
     const promemoria=data.appartamenti.map(a=>{
       const interventi=data.manutenzioni.filter(m=>m.aptId===a.id&&m.desc&&m.desc.toLowerCase().includes('caldaia')).sort((x,y)=>y.date.localeCompare(x.date));
       if(interventi.length===0)return'';
@@ -522,8 +512,7 @@ const previsto=data.appartamenti.filter(a=>a.status==='affittato'&&a.rent>0).red
         <div class="card-header" style="margin-bottom:6px">
           <div><div class="card-code">${aptLabel(x.aptId)}</div><div class="card-name" style="font-size:13px">${x.desc}</div></div>
           ${x.costo>0?`<div class="pay-amount" style="font-size:13px;color:var(--red)">-${fmtAmt(x.costo)}</div>`:''}
-        </div>
-        <div class="row"><span class="row-label">Data</span><span class="row-val">${fmtDate(x.date)}</span></div>
+        </div><div class="row"><span class="row-label">Data</span><span class="row-val">${fmtDate(x.date)}</span></div>
         ${x.art?`<div class="row"><span class="row-label">Artigiano</span><span class="row-val">${x.art}</span></div>`:''}
         ${x.note?`<div class="row"><span class="row-label">Note</span><span class="row-val">${x.note}</span></div>`:''}
         <div style="text-align:right;padding-top:6px"><button class="del-btn" onclick="deleteMan(${x.id})">Elimina</button></div>
@@ -555,8 +544,7 @@ function exportCSV(anno){
   righe.forEach(p=>{
     const apt=data.appartamenti.find(a=>a.id===p.aptId);
     csv+=`${apt?apt.code:'-'};${apt?apt.tenant:'-'};${p.month};${p.date};${p.amt.toFixed(2)};${p.note||''}\n`;
-  });
-  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  });const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
   a.href=url;a.download='pagamenti_'+anno+'.csv';a.click();
@@ -566,7 +554,7 @@ function exportCSV(anno){
 function sendWA(tel,nome){
   const mese=MONTHS[new Date().getMonth()];
   const msg=encodeURIComponent('Ciao '+nome.split(' ')[0]+', ti ricordo gentilmente la scadenza dell affitto per il mese di '+mese+'. Grazie!');
-  window.open('https://wa.me/39'+tel.replace(/\D/g,'')+' ?text='+msg);
+  window.open('https://wa.me/39'+tel.replace(/\D/g,'')+'?text='+msg);
 }
 
 function importApts(){
@@ -587,9 +575,7 @@ function resetData(){
   if(confirm('Sei sicuro? Tutti i dati aggiunti manualmente saranno persi.')){
     data=JSON.parse(JSON.stringify(DEFAULT));save();renders.importa();renderMetrics();
   }
-}
-
-function openAptModal(id){
+}function openAptModal(id){
   editingAptId=id||null;
   document.getElementById('modal-apt-title').textContent=id?'Modifica appartamento':'Nuovo appartamento';
   if(id){
@@ -622,8 +608,7 @@ function openModal(t){
     document.getElementById('p-apt').innerHTML=opts;
     document.getElementById('p-date').value=today();
     document.getElementById('p-note').value='';
-    const now=new Date();
-    const meseCorrente=MONTHS[now.getMonth()]+' '+now.getFullYear();
+    const now=new Date();const meseCorrente=MONTHS[now.getMonth()]+' '+now.getFullYear();
     const sel=document.getElementById('p-month');
     for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===meseCorrente||sel.options[i].text===meseCorrente){sel.selectedIndex=i;break;}}
     const aggiornaImporto=function(){const apt=data.appartamenti.find(a=>a.id===parseInt(document.getElementById('p-apt').value));if(apt&&apt.rent>0)document.getElementById('p-amt').value=apt.rent.toFixed(2);};
@@ -654,8 +639,7 @@ function openModal(t){
 
 function closeModal(t){document.getElementById('modal-'+t).classList.remove('open');}
 
-function saveApt(){
-  const a={id:editingAptId||data.nextId++,code:document.getElementById('f-code').value||'?',tenant:document.getElementById('f-ten').value||'',tel:document.getElementById('f-tel').value||'',email:document.getElementById('f-email').value||'',rent:parseFloat(document.getElementById('f-rent').value)||0,day:parseInt(document.getElementById('f-day').value)||5,exp:document.getElementById('f-exp').value||'',status:document.getElementById('f-status').value,cauzione:parseFloat(document.getElementById('f-cau').value)||0,url:document.getElementById('f-url').value||'',value:parseFloat(document.getElementById('f-val').value)||0,note:document.getElementById('f-note').value||''};
+function saveApt(){const a={id:editingAptId||data.nextId++,code:document.getElementById('f-code').value||'?',tenant:document.getElementById('f-ten').value||'',tel:document.getElementById('f-tel').value||'',email:document.getElementById('f-email').value||'',rent:parseFloat(document.getElementById('f-rent').value)||0,day:parseInt(document.getElementById('f-day').value)||5,exp:document.getElementById('f-exp').value||'',status:document.getElementById('f-status').value,cauzione:parseFloat(document.getElementById('f-cau').value)||0,url:document.getElementById('f-url').value||'',value:parseFloat(document.getElementById('f-val').value)||0,note:document.getElementById('f-note').value||''};
   if(editingAptId){const i=data.appartamenti.findIndex(x=>x.id===editingAptId);if(i>-1)data.appartamenti[i]=a;}
   else data.appartamenti.push(a);
   save();closeModal('apt');renders.appartamenti();renderMetrics();
@@ -681,29 +665,5 @@ function saveMan(){
   if(!data.manutenzioni)data.manutenzioni=[];
   data.manutenzioni.push({id:data.nextId++,desc:document.getElementById('m-desc').value||'',art:document.getElementById('m-art').value||'',costo:parseFloat(document.getElementById('m-costo').value)||0,date:document.getElementById('m-date').value,aptId:parseInt(document.getElementById('m-apt').value),note:document.getElementById('m-note').value||''});
   save();closeModal('man');renders.manutenzioni();
-}
-function verificaPay(id){const i=data.pagamenti.findIndex(p=>p.id===id);if(i>-1){data.pagamenti[i].verificato=true;save();renders.pagamenti();}}
-function deletePay(id){if(confirm('Eliminare questo pagamento?')){data.pagamenti=data.pagamenti.filter(p=>p.id!==id);save();renders.pagamenti();renderMetrics();}}
-function deleteScad(id){data.scadenze=data.scadenze.filter(s=>s.id!==id);save();renders.scadenze();}
-function deleteSpesa(id){data.spese=data.spese.filter(s=>s.id!==id);save();renders.spese();}
-function deleteMan(id){if(confirm('Eliminare questo intervento?')){data.manutenzioni=data.manutenzioni.filter(m=>m.id!==id);save();renders.manutenzioni();}}
-
-document.querySelectorAll('.modal-overlay').forEach(el=>{
-  el.addEventListener('click',e=>{if(e.target===el)closeModal(el.id.replace('modal-',''));});
-});
-
-document.getElementById('fab').style.display='none';
-showLoading(true);
-cloudLoad().then(cloud=>{
-  if(cloud&&cloud.appartamenti&&cloud.appartamenti.length>0){
-    data=cloud;
-    if(!data.spese)data.spese=[];
-    if(!data.manutenzioni)data.manutenzioni=[];
-  }else{cloudSave(data);}
-  showLoading(false);
-  renderMetrics();
-  renders.dashboard();
-});
-</script>
-</body>
-</html>
+}function verificaPay(id){const i=data.pagamenti.findIndex(p=>p.id===id);if(i>-1){data.pagamenti[i].verificato=true;save();renders.pagamenti();}}
+function deletePay(id){if(confirm('Eliminare
